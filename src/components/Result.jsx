@@ -1,16 +1,24 @@
 import React from 'react'
 import styled from '@emotion/styled'
 
-const Result = ({ cityData }) => {
+const Result = ({ cityData, setFavorite }) => {
+
+    const ResContainer = styled.div`
+        width: 100%;
+        height: 500px;
+        justify-content: center;
+        display: flex;
+    `
 
     const Result = styled.div`
         width: 100%;
         max-width: 500px;
         height: auto;
+        max-height: 320px;
         display: flex;
         flex-direction: column;
-        padding-bottom: 20px;
-        padding-top: 10px;
+        padding-bottom: 30px;
+        padding-top: 30px;
         margin-top: 30px;
         border-radius: 6px;
         text-align: center;
@@ -20,7 +28,28 @@ const Result = ({ cityData }) => {
         backdrop-filter: blur(5px);
         -webkit-backdrop-filter: blur(5px);
         border: 1px solid rgba(255, 255, 255, 0.3);
+        @media (max-width: 690px) {
+        max-height: 340px;         
+        }
+        
      `
+        const FavoritesButton = styled.button`
+        font-size: 34px;
+        width: 35px;
+        height: 35px;
+        line-height: 35px;
+        border-radius: 50%;
+        background-color:#5421e0 ;
+        color: #fff;
+        position: absolute;
+        border: none;
+        right: 8px;
+        top: 8px;
+        &:hover{
+        background-color: #460ce5;
+        cursor: pointer;
+      }
+        `
     const CityName = styled.h2`
         font-size: 34px;
         text-decoration: underline #5421e0;
@@ -57,12 +86,13 @@ const Result = ({ cityData }) => {
       `
 
     return (
-        <>
+        <ResContainer>
 
             {cityData.map(data => {
                 return (
                     <>
                         <Result key={data.location.tz_id}>
+                            <FavoritesButton onClick={()=>setFavorite(data)}>+</FavoritesButton>
                             <CityName>{data.location.name}</CityName>
                             <IconRow>
                                 <DataContent>
@@ -99,7 +129,7 @@ const Result = ({ cityData }) => {
                 )
             })}
 
-        </>
+        </ResContainer>
 
     )
 }

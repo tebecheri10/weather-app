@@ -1,6 +1,7 @@
 import React,{ useState, useEffect } from 'react'
 import Form from './components/Form'
 import Result from './components/Result'
+import Favorites from './components/Favorites'
 import styled from '@emotion/styled'
 import './App.css'
 
@@ -8,6 +9,21 @@ function App() {
 
   const [city , setCity] = useState("")
   const [cityData, setCityData] = useState([])
+  const [favorite, setFavorite] = useState([])
+  const [favoriteList, setFavoriteList] = useState([])
+  const [updated, setUpdated] = useState([])
+
+useEffect(()=>{
+  if( Object.keys(favorite).length > 1 &&  Object.keys(updated).length === 0){
+    setFavoriteList([...favoriteList, favorite])
+  }
+  else{
+    setUpdated(favorite)
+    console.log(updated)
+  }
+
+
+},[favorite])
 
   useEffect(()=>{
       const searchCity = async ()=>{
@@ -16,10 +32,8 @@ function App() {
           const result = await fetch(url)
           const resultData = await result.json()
           setCityData([resultData])
-        } catch (error) {
-           console.log(error)
-        }
-       
+        } catch (error) {  
+        } 
       }
     if(city.length > 0 ){
       searchCity()
@@ -27,6 +41,7 @@ function App() {
     }
    
   },[city])
+ 
 
   const Container = styled.div`
     width: 80%;
@@ -46,8 +61,7 @@ function App() {
     font-size: 34px;
     text-align: center;
     `
-  
-  console.log(cityData)
+
   return (
     <Container className="App">
         <Title> Weather App</Title>
@@ -59,9 +73,18 @@ function App() {
         ):cityData[0].error ? (<NoResult>You must insert a valid input</NoResult>):(
           <Result
           cityData={cityData}
+          setFavorite={setFavorite}
+         
           />
         )
        }
+
+       <Favorites
+       favoriteList={favoriteList}
+       setFavoriteList={setFavoriteList}
+       updated={updated}
+       setUpdated={ setUpdated}
+       />
        
 
     </Container>

@@ -15,6 +15,7 @@ const Form = ({setCity}) => {
       width: 100%;
       height: 40px;
       max-width: 500px;
+      min-width: 250px;
       margin-top: 20px;
       background-color: #5421e0;
       border: none;
