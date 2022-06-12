@@ -23,7 +23,7 @@ const Result = ({ cityData }) => {
      `
     const CityName = styled.h2`
         font-size: 34px;
-        text-decoration: underline #21e05e;
+        text-decoration: underline #5421e0;
         margin: 20px;
         padding: 10px;
         margin: 0;

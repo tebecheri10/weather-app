@@ -16,14 +16,14 @@ const Form = ({setCity}) => {
       height: 40px;
       max-width: 500px;
       margin-top: 20px;
-      background-color: #21e05e;
+      background-color: #5421e0;
       border: none;
       border-radius: 6px;
       font-size: 24px;
       font-weight: 400;
       color: #fff;
       &:hover{
-        background-color: #07b83f;
+        background-color: #460ce5;
         cursor: pointer;
       }
 

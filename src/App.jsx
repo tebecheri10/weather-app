@@ -10,12 +10,17 @@ function App() {
   const [cityData, setCityData] = useState([])
 
   useEffect(()=>{
-    const searchCity = async ()=>{
-      const url = `http://api.weatherapi.com/v1/current.json?key=374f5faf0715432694522415221206&q=${city}&aqi=no`
-      const result = await fetch(url)
-      const resultData = await result.json()
-      setCityData([resultData])
-    }
+      const searchCity = async ()=>{
+        try {
+          const url = `http://api.weatherapi.com/v1/current.json?key=374f5faf0715432694522415221206&q=${city}&aqi=no`
+          const result = await fetch(url)
+          const resultData = await result.json()
+          setCityData([resultData])
+        } catch (error) {
+           console.log(error)
+        }
+       
+      }
     if(city.length > 0 ){
       searchCity()
       setCity("")
@@ -34,11 +39,10 @@ function App() {
     const Title = styled.h1`
     text-align: center;
     font-size: 34px;
-    text-decoration: underline #21e05e;
+    text-decoration: underline #5421e0;
   `;
-    const NoCity = styled.h2`
+    const NoResult = styled.h2`
     font-size: 34px;
-    line-height: 10px;
     text-align: center;
     `
   
@@ -49,12 +53,12 @@ function App() {
         <Form
         setCity={setCity}
         />
-        {cityData.length > 0 ?(
-           <Result
-           cityData={cityData}
-           />
-        ):(
-          <NoCity>No result yet...</NoCity>
+        {!cityData.length > 0 ?(
+          <NoResult>No result yet...</NoResult>   
+        ):cityData[0].error ? (<NoResult>You must insert a valid input</NoResult>):(
+          <Result
+          cityData={cityData}
+          />
         )
        }
        
