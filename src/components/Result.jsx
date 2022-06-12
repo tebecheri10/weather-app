@@ -33,8 +33,9 @@ const Result = ({ cityData }) => {
         width: 100%;
         display: flex;
         justify-content: space-around;
+        margin: 10px 0;
       `
-       const IconRow = styled.div`
+    const IconRow = styled.div`
        width: 100%;
        display: flex;
        justify-content: center;
@@ -54,50 +55,50 @@ const Result = ({ cityData }) => {
         line-height: 10px;
         font-weight: 700;
       `
-      
+
     return (
         <>
-                
-                {cityData.map(data => {
-                    return (
-                        <>
-                            <Result key={data.location.tz_id}>
+
+            {cityData.map(data => {
+                return (
+                    <>
+                        <Result key={data.location.tz_id}>
                             <CityName>{data.location.name}</CityName>
-                              <IconRow> 
-                                  <DataContent>
-                                     <img src={data.current.condition.icon} alt="" />
-                                  </DataContent>
-                                  <DataContent>
+                            <IconRow>
+                                <DataContent>
+                                    <img src={data.current.condition.icon} alt="" />
+                                </DataContent>
+                                <DataContent>
                                     <Data>{data.current.condition.text}</Data>
-                                  </DataContent>
-                              </IconRow>
-                              <DataRow>
-                                  <DataContent>
-                                      <Data>Temperature</Data>
-                                      <Data>{data.current.temp_c}°</Data>
-                                  </DataContent>
-                                      
-                                  <DataContent>
-                                  <Data>Humidity</Data>
-                                      <Data>{data.current.humidity}%</Data>
-                                  </DataContent>
-                              </DataRow>
-                              <DataRow>
-                                  <DataContent>
-                                      <Data>Feels Like</Data>
-                                      <Data>{data.current.feelslike_c}°</Data>
-                                  </DataContent>
-                                      
-                                  <DataContent>
-                                  <Data>Wind</Data>
-                                      <Data>{data.current.wind_kph} Kpm</Data>
-                                  </DataContent>
-                              </DataRow>  
-                              </Result>  
-                        </>
-                    )
-                })}
-         
+                                </DataContent>
+                            </IconRow>
+                            <DataRow>
+                                <DataContent>
+                                    <Data>Temperature</Data>
+                                    <Data>{data.current.temp_c}°</Data>
+                                </DataContent>
+
+                                <DataContent>
+                                    <Data>Humidity</Data>
+                                    <Data>{data.current.humidity}%</Data>
+                                </DataContent>
+                            </DataRow>
+                            <DataRow>
+                                <DataContent>
+                                    <Data>Feels Like</Data>
+                                    <Data>{data.current.feelslike_c}°</Data>
+                                </DataContent>
+
+                                <DataContent>
+                                    <Data>Wind</Data>
+                                    <Data>{data.current.wind_kph} Kpm</Data>
+                                </DataContent>
+                            </DataRow>
+                        </Result>
+                    </>
+                )
+            })}
+
         </>
 
     )

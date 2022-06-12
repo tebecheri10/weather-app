@@ -40,6 +40,7 @@ function App() {
     text-align: center;
     font-size: 34px;
     text-decoration: underline #5421e0;
+    margin-top: 50px;
   `;
     const NoResult = styled.h2`
     font-size: 34px;
