@@ -2,41 +2,45 @@ import React, { useState, useEffect } from 'react'
 import styled from '@emotion/styled'
 
 
-const Favorites = ({ favoriteList, setFavoriteList, updated,setUpdated }) => {
+const Favorites = ({ favoriteList, setFavoriteList, updated, setUpdated }) => {
 
-    const [lastUpdate, setLastUpdate ]= useState("")
+    const [lastUpdate, setLastUpdate] = useState("")
 
-    const updateFavorites = setInterval(() => {
-        if(Object.keys(favoriteList).length > 0){
+    const handleUpdateFavorites = () => {
+        if (Object.keys(favoriteList).length > 0) {
             const cityToUpdate = favoriteList.map(city => city.location.name)
             cityToUpdate.forEach(name => {
                 const searchCity = async () => {
                     const cityName = name.toLowerCase()
                     try {
-                        const url = `http://api.weatherapi.com/v1/current.json?key=374f5faf0715432694522415221206&q=${cityName}&aqi=no`
+                        const url = `https://api.weatherapi.com/v1/current.json?key=374f5faf0715432694522415221206&q=${cityName}&aqi=no`
                         const result = await fetch(url)
                         const resultData = await result.json()
                         const updatedList = await favoriteList.map(f => f.location.name === resultData.location.name ? resultData : f)
-    
-                        await setUpdated(updatedList)
-                        if(updated.length > 0){
+
+                        if (updatedList) {
                             setFavoriteList(updatedList)
+                            console.log(favoriteList)
                         }
                     } catch (error) {
                         console.log("Update favorites error: ", error)
                     }
                 }
                 searchCity()
-                console.log("lastupdate: ",updated)
                 const event = new Date();
-                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }; 
-                setLastUpdate(event.toLocaleDateString(undefined, options));   
-               
+                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                setLastUpdate(event.toLocaleDateString(undefined, options));
+
             })
         }
-      
-    }, 15 * 60 * 1000)
-    //3600000
+
+    }
+
+    const handleDelete = (name)=>{
+         const listAfterDeleted = favoriteList.filter(item=>item.location.name !== name)
+         setFavoriteList(listAfterDeleted)
+    }
+
 
     const FavoritesContainer = styled.div`
     width: 100%;
@@ -112,7 +116,7 @@ const Favorites = ({ favoriteList, setFavoriteList, updated,setUpdated }) => {
         font-size: 16px;
       }
  `
-   const DeleteButton = styled.button`
+    const DeleteButton = styled.button`
       font-size: 14px;
     width: 30px;
     height: 30px;
@@ -130,77 +134,63 @@ const Favorites = ({ favoriteList, setFavoriteList, updated,setUpdated }) => {
    cursor: pointer;
  }
    `
+    const UpdateButton = styled.input`
+   width: 100%;
+   height: 40px;
+   max-width: 200px;
+   min-width: 250px;
+   margin-top: 20px;
+   background-color: #5421e0;
+   border: none;
+   border-radius: 6px;
+   font-size: 20px;
+   font-weight: 400;
+   color: #fff;
+   &:hover{
+     background-color: #460ce5;
+     cursor: pointer;
+   }
+
+`
     console.log(lastUpdate.toString())
     return (
         <FavoritesContainer>
-            <CityName>Last update: {lastUpdate} </CityName>
-            {updated.length > 0 ? (
-                <ResultContainer>
-                    {updated.map(data => {
-                        return (
-                            <>
-                                <Result key={data.location.tz_id}>
-                                <DeleteButton>X</DeleteButton>
-                                    <CityName>{data.location.name}</CityName>
-                                    <IconRow>
-                                        <DataContent>
-                                            <img src={data.current.condition.icon} alt="" />
-                                        </DataContent>
-                                        <DataContent>
-                                            <Data>{data.current.condition.text}</Data>
-                                        </DataContent>
-                                    </IconRow>
-                                    <DataRow>
-                                        <DataContent>
-                                            <Data>Temperature</Data>
-                                            <Data>{data.current.temp_c}°</Data>
-                                        </DataContent>
+            <UpdateButton
+                type="submit"
+                value="Update Favorites"
+                onClick={handleUpdateFavorites}
+            />
+            <ResultContainer>
+                {favoriteList.map(data => {
+                    return (
+                        <>
+                            <Result key={data.location.tz_id}>
+                                <DeleteButton onClick={()=>handleDelete(data.location.name)}>X</DeleteButton>
+                                <CityName>{data.location.name}</CityName>
+                                <IconRow>
+                                    <DataContent>
+                                        <img src={data.current.condition.icon} alt="" />
+                                    </DataContent>
+                                    <DataContent>
+                                        <Data>{data.current.condition.text}</Data>
+                                    </DataContent>
+                                </IconRow>
+                                <DataRow>
+                                    <DataContent>
+                                        <Data>Temperature</Data>
+                                        <Data>{data.current.temp_c}°</Data>
+                                    </DataContent>
 
-                                        <DataContent>
-                                            <Data>Feels Like</Data>
-                                            <Data>{data.current.feelslike_c}°</Data>
-                                        </DataContent>
-                                    </DataRow>
-                                </Result>
-                            </>
-                        )
-                    })}
-                </ResultContainer>
-            ) : (
-                <ResultContainer>
-                    {favoriteList.map(data => {
-                        return (
-                            <>
-
-                                <Result key={data.location.tz_id}>
-                                <DeleteButton>X</DeleteButton>
-                                    <CityName>{data.location.name}</CityName>
-                                    <IconRow>
-                                        <DataContent>
-                                            <img src={data.current.condition.icon} alt="" />
-                                        </DataContent>
-                                        <DataContent>
-                                            <Data>{data.current.condition.text}</Data>
-                                        </DataContent>
-                                    </IconRow>
-                                    <DataRow>
-                                        <DataContent>
-                                            <Data>Temperature</Data>
-                                            <Data>{data.current.temp_c}°</Data>
-                                        </DataContent>
-
-                                        <DataContent>
-                                            <Data>Feels Like</Data>
-                                            <Data>{data.current.feelslike_c}°</Data>
-                                        </DataContent>
-                                    </DataRow>
-                                </Result>
-                            </>
-                        )
-                    })}
-                </ResultContainer>
-            )}
-
+                                    <DataContent>
+                                        <Data>Feels Like</Data>
+                                        <Data>{data.current.feelslike_c}°</Data>
+                                    </DataContent>
+                                </DataRow>
+                            </Result>
+                        </>
+                    )
+                })}
+            </ResultContainer>
         </FavoritesContainer>
     )
 }

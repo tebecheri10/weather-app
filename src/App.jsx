@@ -14,21 +14,17 @@ function App() {
   const [updated, setUpdated] = useState([])
 
 useEffect(()=>{
-  if( Object.keys(favorite).length > 1 &&  Object.keys(updated).length === 0){
+  if( Object.keys(favorite).length > 1){
     setFavoriteList([...favoriteList, favorite])
+    console.log(favoriteList)
   }
-  else{
-    setUpdated(favorite)
-    console.log(updated)
-  }
-
 
 },[favorite])
 
   useEffect(()=>{
       const searchCity = async ()=>{
         try {
-          const url = `http://api.weatherapi.com/v1/current.json?key=374f5faf0715432694522415221206&q=${city}&aqi=no`
+          const url = `https://api.weatherapi.com/v1/current.json?key=374f5faf0715432694522415221206&q=${city}&aqi=no`
           const result = await fetch(url)
           const resultData = await result.json()
           setCityData([resultData])
