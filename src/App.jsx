@@ -10,16 +10,21 @@ function App() {
   const [city , setCity] = useState("")
   const [cityData, setCityData] = useState([])
   const [favorite, setFavorite] = useState([])
-  const [favoriteList, setFavoriteList] = useState([])
+  const [favoriteList, setFavoriteList] = useState(
+    localStorage.getItem("favoriteList") ? JSON.parse(localStorage.getItem("favoriteList")): []
+  )
   const [updated, setUpdated] = useState([])
+
 
 useEffect(()=>{
   if( Object.keys(favorite).length > 1){
     setFavoriteList([...favoriteList, favorite])
-    console.log(favoriteList)
   }
-
 },[favorite])
+
+useEffect(()=>{
+  localStorage.setItem("favoriteList",JSON.stringify( favoriteList));
+},[favoriteList])
 
   useEffect(()=>{
       const searchCity = async ()=>{

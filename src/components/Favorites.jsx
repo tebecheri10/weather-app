@@ -20,7 +20,6 @@ const Favorites = ({ favoriteList, setFavoriteList, updated, setUpdated }) => {
 
                         if (updatedList) {
                             setFavoriteList(updatedList)
-                            console.log(favoriteList)
                         }
                     } catch (error) {
                         console.log("Update favorites error: ", error)
@@ -36,15 +35,21 @@ const Favorites = ({ favoriteList, setFavoriteList, updated, setUpdated }) => {
 
     }
 
-    const handleDelete = (name)=>{
-         const listAfterDeleted = favoriteList.filter(item=>item.location.name !== name)
-         setFavoriteList(listAfterDeleted)
+    const handleDelete = (name) => {
+        const listAfterDeleted = favoriteList.filter(item => item.location.name !== name)
+        setFavoriteList(listAfterDeleted)
     }
 
 
     const FavoritesContainer = styled.div`
     width: 100%;
     border-top: 1px solid rgba(255, 255, 255, 0.3);
+    @media (max-width: 690px){
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
   `
     const ResultContainer = styled.div`
     width: 95%;
@@ -54,6 +59,25 @@ const Favorites = ({ favoriteList, setFavoriteList, updated, setUpdated }) => {
     justify-content: center;
     gap: 20px;
 `
+    const TitleRow = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    @media (max-width: 690px){
+    flex-direction: column-reverse;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    }
+    `;
+
+    const Title = styled.h2`
+    text-align: center;
+    font-size: 34px;
+    text-decoration: underline #5421e0;
+    margin: 0;
+    `;
+
     const Result = styled.div`
    width: 100%;
    max-width: 320px;
@@ -137,13 +161,12 @@ const Favorites = ({ favoriteList, setFavoriteList, updated, setUpdated }) => {
     const UpdateButton = styled.input`
    width: 100%;
    height: 40px;
-   max-width: 200px;
-   min-width: 250px;
-   margin-top: 20px;
+   max-width: 150px;
+   min-width: 140px;
    background-color: #5421e0;
    border: none;
    border-radius: 6px;
-   font-size: 20px;
+   font-size: 16px;
    font-weight: 400;
    color: #fff;
    &:hover{
@@ -152,20 +175,26 @@ const Favorites = ({ favoriteList, setFavoriteList, updated, setUpdated }) => {
    }
 
 `
-    console.log(lastUpdate.toString())
     return (
         <FavoritesContainer>
-            <UpdateButton
-                type="submit"
-                value="Update Favorites"
-                onClick={handleUpdateFavorites}
-            />
+            <TitleRow>
+                {Object.keys(favoriteList).length > 0 &&
+                    <UpdateButton
+                        type="submit"
+                        value="Update Favorites"
+                        onClick={handleUpdateFavorites}
+                    />
+                }
+                <Title>Favorites List</Title>
+            </TitleRow>
+
+
             <ResultContainer>
                 {favoriteList.map(data => {
                     return (
                         <>
                             <Result key={data.location.tz_id}>
-                                <DeleteButton onClick={()=>handleDelete(data.location.name)}>X</DeleteButton>
+                                <DeleteButton onClick={() => handleDelete(data.location.name)}>X</DeleteButton>
                                 <CityName>{data.location.name}</CityName>
                                 <IconRow>
                                     <DataContent>
