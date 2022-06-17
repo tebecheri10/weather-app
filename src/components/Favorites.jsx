@@ -63,6 +63,7 @@ const Favorites = ({ favoriteList, setFavoriteList, updated, setUpdated }) => {
     width: 100%;
     display: flex;
     justify-content: space-around;
+    padding-top: 20px;
     @media (max-width: 690px){
     flex-direction: column-reverse;
     justify-content: center;
@@ -187,8 +188,6 @@ const Favorites = ({ favoriteList, setFavoriteList, updated, setUpdated }) => {
                 }
                 <Title>Favorites List</Title>
             </TitleRow>
-
-
             <ResultContainer>
                 {favoriteList.map(data => {
                     return (

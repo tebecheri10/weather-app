@@ -14,6 +14,7 @@ function App() {
     localStorage.getItem("favoriteList") ? JSON.parse(localStorage.getItem("favoriteList")): []
   )
   const [updated, setUpdated] = useState([])
+  const [spinner, setSpinner] = useState(false)
 
 
 useEffect(()=>{
@@ -27,7 +28,9 @@ useEffect(()=>{
 },[favoriteList])
 
   useEffect(()=>{
+     
       const searchCity = async ()=>{
+        setSpinner(true)
         try {
           const url = `https://api.weatherapi.com/v1/current.json?key=374f5faf0715432694522415221206&q=${city}&aqi=no`
           const result = await fetch(url)
@@ -35,7 +38,9 @@ useEffect(()=>{
           setCityData([resultData])
         } catch (error) {  
         } 
+        setSpinner(false)
       }
+      
     if(city.length > 0 ){
       searchCity()
       setCity("")
@@ -46,7 +51,7 @@ useEffect(()=>{
 
   const Container = styled.div`
     width: 80%;
-    margin: 30px auto 0;
+    margin: 10px auto 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -56,7 +61,7 @@ useEffect(()=>{
     text-align: center;
     font-size: 34px;
     text-decoration: underline #5421e0;
-    margin-top: 50px;
+    margin-top: 15px;
   `;
     const NoResult = styled.h2`
     font-size: 34px;
@@ -75,7 +80,7 @@ useEffect(()=>{
           <Result
           cityData={cityData}
           setFavorite={setFavorite}
-         
+          spinner={ spinner }
           />
         )
        }
