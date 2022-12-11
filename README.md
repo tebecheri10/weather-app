@@ -6,7 +6,7 @@ App  para obtener información del clima de cualquier ciudad del mundo<br/>
 -Consumo de Api.<br/>
 
 
-web:https://wederapp.netlify.a
+web:https://wederapp.netlify.app
 
 
 ## Herramientas
